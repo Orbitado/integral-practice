@@ -27,5 +27,28 @@ router.post("/", async (req, res) => {
     });
   }
 });
-
+// GET TASKS BY ID
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  const task = await taskModel.findById(id);
+  res.json(task);
+});
+//PUT TASKS
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
+  const { title, description, completed } = req.body;
+  const task = await taskModel.findByIdAndUpdate(id, {
+    title,
+    description,
+    completed,
+  });
+  const newTask = await taskModel.findById(id);
+  res.json(newTask);
+});
+//DELETE TASKS
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  const task = await taskModel.findByIdAndDelete(id);
+  res.json(task);
+});
 export default router;
